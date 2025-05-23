@@ -1,9 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Experiment 2 - Matrix Multiplication</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  <style>
+    input[type="number"] {
+      width: 30%;
+      padding: 10px 14px;
+      margin: 10px 0;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.25);
+      color: #2c2c54;
+      transition: all 0.3s ease-in-out;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -23,14 +37,14 @@
 
       <div class="matrix-input-row">
         <div>
-          <label>Matrix A (rows × cols):</label><br>
+          <label>Matrix A (rows × cols):</label><br />
           <input type="number" id="aRows" min="1" max="8" placeholder="Rows" />
           <input type="number" id="aCols" min="1" max="8" placeholder="Cols" />
-          <button onclick="generateMatrixInput('A')">Create A</button>
+          <button onclick="generateMatrixInput('A')" >Create A</button>
         </div>
 
         <div>
-          <label>Matrix B (rows × cols):</label><br>
+          <label>Matrix B (rows × cols):</label><br />
           <input type="number" id="bRows" min="1" max="8" placeholder="Rows" />
           <input type="number" id="bCols" min="1" max="8" placeholder="Cols" />
           <button onclick="generateMatrixInput('B')">Create B</button>
@@ -65,21 +79,82 @@
       if (!rows || !cols) return;
 
       const id = `matrix-${label}`;
-      const matrixHTML = Array(rows).fill(0).map((_, i) =>
-        `<div class="matrix-row">` +
-        Array(cols).fill(0).map((_, j) =>
-          `<input type="number" class="cell" data-matrix="${label}" data-row="${i}" data-col="${j}" />`
-        ).join('') +
-        `</div>`
-      ).join('');
+      // Remove old matrix if exists
+      const oldMatrix = document.getElementById(id);
+      if (oldMatrix) oldMatrix.remove();
 
-      document.getElementById(id)?.remove(); // Remove old matrix if exists
+      // Create matrix HTML rows and inputs
+      const matrixHTML = Array(rows)
+        .fill(0)
+        .map(
+          (_, i) =>
+            `<div class="matrix-row">` +
+            Array(cols)
+              .fill(0)
+              .map(
+                (_, j) =>
+                  `<input type="number" class="cell" data-matrix="${label}" data-row="${i}" data-col="${j}" />`
+              )
+              .join('') +
+            `</div>`
+        )
+        .join('');
 
+      // Create container div
       const container = document.createElement('div');
       container.className = 'matrix-box';
       container.id = id;
       container.innerHTML = `<h4>Matrix ${label}</h4>${matrixHTML}`;
       document.getElementById('matrixInputs').appendChild(container);
+
+      // Inject style for this matrix inside <style> tag dynamically
+      const styleTagId = `style-${id}`;
+      let styleTag = document.getElementById(styleTagId);
+      if (styleTag) styleTag.remove(); // remove old style if exists
+
+      styleTag = document.createElement('style');
+      styleTag.id = styleTagId;
+      styleTag.textContent = `
+        #${id} {
+          display: inline-block;
+          margin: 15px;
+          background: rgba(255 255 255 / 0.15);
+          padding: 10px 15px;
+          border-radius: 10px;
+          box-shadow: 0 0 8px rgba(0,0,0,0.15);
+          user-select: none;
+        }
+        #${id} h4 {
+          margin-bottom: 10px;
+          color: #e0def4;
+          font-weight: 600;
+        }
+        #${id} .matrix-row {
+          display: flex;
+          justify-content: flex-start;
+        }
+        #${id} .matrix-row .cell {
+          width: 80px;
+          height: 40px;
+          margin: 3px;
+          border: 2px solid #81ecec;
+          border-radius: 6px;
+          background-color: rgba(255 255 255 / 0.3);
+          color: #2c2c54;
+          font-weight: 600;
+          font-size: 1rem;
+          text-align: center;
+          outline-offset: 2px;
+          transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        #${id} .matrix-row .cell:focus {
+          border-color: #00cec9;
+          box-shadow: 0 0 8px #00cec9aa;
+          background-color: #dff9fb;
+          color: #0984e3;
+        }
+      `;
+      document.head.appendChild(styleTag);
 
       matrices[label] = { rows, cols };
     }
@@ -90,7 +165,9 @@
       for (let i = 0; i < rows; i++) {
         const row = [];
         for (let j = 0; j < cols; j++) {
-          const cell = document.querySelector(`input[data-matrix="${label}"][data-row="${i}"][data-col="${j}"]`);
+          const cell = document.querySelector(
+            `input[data-matrix="${label}"][data-row="${i}"][data-col="${j}"]`
+          );
           row.push(parseFloat(cell.value || 0));
         }
         matrix.push(row);
@@ -103,14 +180,22 @@
       const aCols = Math.floor(Math.random() * 7) + 1;
       const bCols = Math.floor(Math.random() * 7) + 1;
 
-      const A = Array.from({ length: aRows }, () => Array.from({ length: aCols }, () => Math.floor(Math.random() * 10)));
-      const B = Array.from({ length: aCols }, () => Array.from({ length: bCols }, () => Math.floor(Math.random() * 10)));
+      const A = Array.from({ length: aRows }, () =>
+        Array.from({ length: aCols }, () => Math.floor(Math.random() * 10))
+      );
+      const B = Array.from({ length: aCols }, () =>
+        Array.from({ length: bCols }, () => Math.floor(Math.random() * 10))
+      );
 
       window.randomMatrices = { A, B };
 
       document.getElementById('randomPreview').innerHTML = `
-        <p><strong>Matrix A (${aRows}x${aCols}):</strong><br>${A.map(row => row.join(' ')).join('<br>')}</p>
-        <p><strong>Matrix B (${aCols}x${bCols}):</strong><br>${B.map(row => row.join(' ')).join('<br>')}</p>
+        <p><strong>Matrix A (${aRows}x${aCols}):</strong><br>${A
+          .map((row) => row.join(' '))
+          .join('<br>')}</p>
+        <p><strong>Matrix B (${aCols}x${bCols}):</strong><br>${B
+          .map((row) => row.join(' '))
+          .join('<br>')}</p>
       `;
 
       showTab('random');
@@ -121,21 +206,21 @@
       const B = isRandom ? window.randomMatrices.B : gatherManualMatrix('B');
 
       if (!A || !B || A[0].length !== B.length) {
-        document.getElementById('result').innerText = "❌ Cannot multiply: incompatible sizes.";
+        document.getElementById('result').innerText = '❌ Cannot multiply: incompatible sizes.';
         return;
       }
 
       const res = await fetch('/exp2', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ matrixA: A, matrixB: B })
+        body: JSON.stringify({ matrixA: A, matrixB: B }),
       });
 
       const data = await res.json();
       if (res.ok) {
         document.getElementById('result').innerHTML = `
           <h4>✅ Result Matrix:</h4>
-          <pre>${data.result.map(row => row.join(' ')).join('\n')}</pre>
+          <pre>${data.result.map((row) => row.join(' ')).join('\n')}</pre>
         `;
       } else {
         document.getElementById('result').innerText = data.error;
