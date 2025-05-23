@@ -411,3 +411,52 @@ form button.submit-btn:hover {
     width: 100%;
   }
 }
+
+.exp4-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  padding: 2.5rem 3rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  color: #fff;
+}
+
+.input-form {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.input-form.hidden {
+  display: none;
+}
+
+.number-inputs {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.number-box {
+  width: 60px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.result-box {
+  margin-top: 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}

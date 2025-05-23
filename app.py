@@ -55,6 +55,33 @@ def exp3():
 
     return render_template('exp3.html')
 
+@app.route('/exp4', methods=['GET'])
+def exp4():
+    return render_template('exp4.html')
+
+@app.route('/exp4/user', methods=['POST'])
+def exp4_user():
+    try:
+        numbers = list(map(int, request.form.getlist('numbers')))
+        if len(numbers) > 10:
+            return render_template('exp4.html', numbers=[], largest="Too many numbers (max 10)")
+        largest = max(numbers)
+        return render_template('exp4.html', numbers=numbers, largest=largest)
+    except Exception as e:
+        return render_template('exp4.html', numbers=[], largest="Invalid input")
+
+@app.route('/exp4/random', methods=['POST'])
+def exp4_random():
+    try:
+        count = int(request.form.get('randomCount'))
+        if count > 10:
+            return render_template('exp4.html', numbers=[], largest="Too many numbers (max 10)")
+        numbers = [random.randint(1, 100) for _ in range(count)]
+        largest = max(numbers)
+        return render_template('exp4.html', numbers=numbers, largest=largest)
+    except Exception as e:
+        return render_template('exp4.html', numbers=[], largest="Error generating numbers")
+        
 
 if __name__ == '__main__':
     app.run(debug=True)
