@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Experiment 2 - Matrix Multiplication</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Experiment 2: Multiply Two Matrices</h1>
+      <p><strong>Name:</strong> Syed Tajbir Ahmed</p>
+      <p><strong>Student ID:</strong> 20701016</p>
+    </header>
+
+    <div class="tabs">
+      <button onclick="showTab('manual')">Manual Input</button>
+      <button onclick="generateRandom()">Random Matrices</button>
+    </div>
+
+    <div id="manualInput" class="tab active">
+      <h3>Manual Matrix Input</h3>
+
+      <div class="matrix-input-row">
+        <div>
+          <label>Matrix A (rows × cols):</label><br>
+          <input type="number" id="aRows" min="1" max="8" placeholder="Rows" />
+          <input type="number" id="aCols" min="1" max="8" placeholder="Cols" />
+          <button onclick="generateMatrixInput('A')">Create A</button>
+        </div>
+
+        <div>
+          <label>Matrix B (rows × cols):</label><br>
+          <input type="number" id="bRows" min="1" max="8" placeholder="Rows" />
+          <input type="number" id="bCols" min="1" max="8" placeholder="Cols" />
+          <button onclick="generateMatrixInput('B')">Create B</button>
+        </div>
+      </div>
+
+      <div id="matrixInputs" class="matrix-input-row"></div>
+
+      <button onclick="multiplyMatrices(false)" class="multiply-button">Multiply</button>
+    </div>
+
+    <div id="randomInput" class="tab" style="display: none;">
+      <h3>Randomly Generated Matrices</h3>
+      <div id="randomPreview"></div>
+      <button onclick="multiplyMatrices(true)" class="multiply-button">Multiply</button>
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    let matrices = {};
+
+    function showTab(tab) {
+      document.getElementById('manualInput').style.display = tab === 'manual' ? 'block' : 'none';
+      document.getElementById('randomInput').style.display = tab === 'manual' ? 'none' : 'block';
+    }
+
+    function generateMatrixInput(label) {
+      const rows = parseInt(document.getElementById(label.toLowerCase() + 'Rows').value);
+      const cols = parseInt(document.getElementById(label.toLowerCase() + 'Cols').value);
+      if (!rows || !cols) return;
+
+      const id = `matrix-${label}`;
+      const matrixHTML = Array(rows).fill(0).map((_, i) =>
+        `<div class="matrix-row">` +
+        Array(cols).fill(0).map((_, j) =>
+          `<input type="number" class="cell" data-matrix="${label}" data-row="${i}" data-col="${j}" />`
+        ).join('') +
+        `</div>`
+      ).join('');
+
+      document.getElementById(id)?.remove(); // Remove old matrix if exists
+
+      const container = document.createElement('div');
+      container.className = 'matrix-box';
+      container.id = id;
+      container.innerHTML = `<h4>Matrix ${label}</h4>${matrixHTML}`;
+      document.getElementById('matrixInputs').appendChild(container);
+
+      matrices[label] = { rows, cols };
+    }
+
+    function gatherManualMatrix(label) {
+      const { rows, cols } = matrices[label];
+      const matrix = [];
+      for (let i = 0; i < rows; i++) {
+        const row = [];
+        for (let j = 0; j < cols; j++) {
+          const cell = document.querySelector(`input[data-matrix="${label}"][data-row="${i}"][data-col="${j}"]`);
+          row.push(parseFloat(cell.value || 0));
+        }
+        matrix.push(row);
+      }
+      return matrix;
+    }
+
+    function generateRandom() {
+      const aRows = Math.floor(Math.random() * 7) + 1;
+      const aCols = Math.floor(Math.random() * 7) + 1;
+      const bCols = Math.floor(Math.random() * 7) + 1;
+
+      const A = Array.from({ length: aRows }, () => Array.from({ length: aCols }, () => Math.floor(Math.random() * 10)));
+      const B = Array.from({ length: aCols }, () => Array.from({ length: bCols }, () => Math.floor(Math.random() * 10)));
+
+      window.randomMatrices = { A, B };
+
+      document.getElementById('randomPreview').innerHTML = `
+        <p><strong>Matrix A (${aRows}x${aCols}):</strong><br>${A.map(row => row.join(' ')).join('<br>')}</p>
+        <p><strong>Matrix B (${aCols}x${bCols}):</strong><br>${B.map(row => row.join(' ')).join('<br>')}</p>
+      `;
+
+      showTab('random');
+    }
+
+    async function multiplyMatrices(isRandom = false) {
+      const A = isRandom ? window.randomMatrices.A : gatherManualMatrix('A');
+      const B = isRandom ? window.randomMatrices.B : gatherManualMatrix('B');
+
+      if (!A || !B || A[0].length !== B.length) {
+        document.getElementById('result').innerText = "❌ Cannot multiply: incompatible sizes.";
+        return;
+      }
+
+      const res = await fetch('/exp2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ matrixA: A, matrixB: B })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        document.getElementById('result').innerHTML = `
+          <h4>✅ Result Matrix:</h4>
+          <pre>${data.result.map(row => row.join(' ')).join('\n')}</pre>
+        `;
+      } else {
+        document.getElementById('result').innerText = data.error;
+      }
+    }
+  </script>
+</body>
+</html>
