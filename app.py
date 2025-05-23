@@ -11,7 +11,22 @@ def exp1():
         return jsonify(numbers=numbers)
     return render_template('exp1.html')
 
+@app.route('/exp2', methods=['GET', 'POST'])
+def exp2():
+    if request.method == 'POST':
+        data = request.json
+        A = data.get('matrixA')
+        B = data.get('matrixB')
 
+        if not A or not B or len(A[0]) != len(B):
+            return jsonify(error="Invalid matrix dimensions for multiplication."), 400
+
+        # Multiply matrices
+        result = [[sum(a*b for a, b in zip(A_row, B_col)) for B_col in zip(*B)] for A_row in A]
+        return jsonify(result=result)
+
+    return render_template('exp2.html')
+    
 
 
 if __name__ == '__main__':

@@ -106,3 +106,86 @@
     }
   }
   
+  .tabs {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .tabs button {
+    padding: 10px 16px;
+    background: #81ecec;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transition: background 0.3s;
+  }
+  
+  .tabs button:hover {
+    background: #00cec9;
+    color: #fff;
+  }
+  
+  .matrix-size {
+    margin: 10px 0;
+  }
+  
+  .matrix-box {
+    margin-top: 20px;
+  }
+  
+  .matrix-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 4px;
+  }
+  
+  .matrix-row input.cell {
+    width: 40px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 6px;
+    border: 1px solid #ccc;
+  }
+
+  .matrix-input-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  
+  .matrix-box {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .matrix-row {
+    display: flex;
+    justify-content: start;
+    gap: 5px;
+    margin-bottom: 4px;
+  }
+  
+  .cell {
+    width: 40px;
+    padding: 4px;
+    text-align: center;
+  }
+  
+  .multiply-button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
