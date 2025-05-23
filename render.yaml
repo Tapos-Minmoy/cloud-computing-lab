@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: experiment-1
+    env: python
+    buildCommand: cd experiment-1 && pip install -r requirements.txt
+    startCommand: cd experiment-1 && gunicorn app:app
