@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Experiment 3 - User Validation</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+    <div class="container exp3-container">
+        <header>
+          <h1>Experiment 3: User Registration & Login</h1>
+          <p><strong>Name:</strong> Syed Tajbir Ahmed</p>
+          <p><strong>Student ID:</strong> 20701016</p>
+        </header>
+      
+        <!-- Toggle buttons to switch forms -->
+        <div class="toggle-buttons">
+          <button id="showRegister" class="active">Register</button>
+          <button id="showLogin">Login</button>
+        </div>
+      
+        <!-- Registration Form -->
+        <form id="registerForm" class="active">
+          <h2>Register</h2>
+          <input type="hidden" name="action" value="register" />
+      
+          <label for="regUsername">Username:</label>
+          <input type="text" id="regUsername" name="username" required />
+      
+          <label for="regEmail">Email:</label>
+          <input type="email" id="regEmail" name="email" required />
+      
+          <label for="regPassword">Password:</label>
+          <input type="password" id="regPassword" name="password" required />
+      
+          <button type="submit" class="submit-btn">Register</button>
+          <div id="registerMessage" class="message"></div>
+        </form>
+      
+        <!-- Login Form -->
+        <form id="loginForm">
+          <h2>Login</h2>
+          <input type="hidden" name="action" value="login" />
+      
+          <label for="loginUsername">Username:</label>
+          <input type="text" id="loginUsername" name="username" required />
+      
+          <label for="loginPassword">Password:</label>
+          <input type="password" id="loginPassword" name="password" required />
+      
+          <button type="submit" class="submit-btn">Login</button>
+          <div id="loginMessage" class="message"></div>
+        </form>
+      </div>
+
+  <script>
+    // Toggle between Register and Login forms
+    const showRegisterBtn = document.getElementById('showRegister');
+    const showLoginBtn = document.getElementById('showLogin');
+    const registerForm = document.getElementById('registerForm');
+    const loginForm = document.getElementById('loginForm');
+
+    showRegisterBtn.addEventListener('click', () => {
+      registerForm.classList.add('active');
+      loginForm.classList.remove('active');
+      showRegisterBtn.classList.add('active');
+      showLoginBtn.classList.remove('active');
+      clearMessages();
+    });
+
+    showLoginBtn.addEventListener('click', () => {
+      loginForm.classList.add('active');
+      registerForm.classList.remove('active');
+      showLoginBtn.classList.add('active');
+      showRegisterBtn.classList.remove('active');
+      clearMessages();
+    });
+
+    function clearMessages() {
+      document.getElementById('registerMessage').textContent = '';
+      document.getElementById('loginMessage').textContent = '';
+    }
+
+    // Handle Register form submission
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('regUsername').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
+
+      if (!username || !email || !password) {
+        alert("❌ Please fill in all registration fields.");
+        return;
+      }
+
+      const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      if (!emailPattern.test(email)) {
+        alert("⚠️ Please enter a valid email address.");
+        return;
+      }
+
+      if (password.length < 6) {
+        alert("🔒 Password must be at least 6 characters long.");
+        return;
+      }
+
+      const res = await fetch('/exp3', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({
+          action: 'register',
+          username,
+          email,
+          password
+        })
+      });
+
+      const msgBox = document.getElementById('registerMessage');
+      if (res.ok) {
+        const data = await res.json();
+        msgBox.textContent = data.message;
+        msgBox.className = 'message success';
+      } else {
+        const err = await res.json();
+        msgBox.textContent = err.error || 'Registration failed';
+        msgBox.className = 'message error';
+      }
+    });
+
+    // Handle Login form submission
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      if (!username || !password) {
+        alert("❌ Please fill in all login fields.");
+        return;
+      }
+
+      const res = await fetch('/exp3', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({
+          action: 'login',
+          username,
+          password
+        })
+      });
+
+      const msgBox = document.getElementById('loginMessage');
+      if (res.ok) {
+        const data = await res.json();
+        msgBox.textContent = data.message;
+        msgBox.className = 'message success';
+      } else {
+        const err = await res.json();
+        msgBox.textContent = err.error || 'Login failed';
+        msgBox.className = 'message error';
+      }
+    });
+  </script>
+</body>
+</html>

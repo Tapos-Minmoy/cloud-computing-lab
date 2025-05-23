@@ -1,6 +1,11 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+
 
 app = Flask(__name__)
+
+users_db = {}
+
+app.secret_key = 'super-secret-key'
 
 # Experiment 1: generate n even numbers
 @app.route('/exp1', methods=['GET', 'POST'])
@@ -26,7 +31,29 @@ def exp2():
         return jsonify(result=result)
 
     return render_template('exp2.html')
-    
+
+@app.route('/exp3', methods=['GET', 'POST'])
+def exp3():
+    if request.method == 'POST':
+        action = request.form.get('action')
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        if action == 'register':
+            if username in users_db:
+                return jsonify({'error': 'Username already exists.'}), 400
+            users_db[username] = {'email': email, 'password': password}
+            return jsonify({'message': 'User registered successfully!'})
+
+        elif action == 'login':
+            user = users_db.get(username)
+            if user and user['password'] == password:
+                session['user'] = username
+                return jsonify({'message': f'Welcome {username}!'})
+            return jsonify({'error': 'Invalid credentials'}), 401
+
+    return render_template('exp3.html')
 
 
 if __name__ == '__main__':

@@ -189,3 +189,225 @@
     border-radius: 5px;
   }
   
+  .tabs {
+    margin: 20px 0;
+  }
+  .tabs button {
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+  .tabs button:hover {
+    background: #0056b3;
+  }
+  
+  input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px 14px;
+  margin: 10px 0;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus {
+  border-color: #007bff;
+  outline: none;
+  background-color: #f0f8ff;
+  box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 16px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.exp3-container {
+  max-width: 600px;  /* wider than default 400px */
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  padding: 2.5rem 3rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  text-align: center;
+  color: #fff;
+}
+
+/* Header h1 */
+.exp3-container header h1 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Header p */
+.exp3-container header p {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.04em;
+  color: #dcd6f7;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+
+/* Toggle buttons container */
+.toggle-buttons {
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Toggle buttons styling */
+.toggle-buttons button {
+  background-color: #007bff;
+  border: none;
+  padding: 10px 25px;
+  font-size: 1rem;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.6);
+}
+
+.toggle-buttons button:hover,
+.toggle-buttons button.active {
+  background-color: #0056b3;
+  box-shadow: 0 7px 20px rgba(0, 86, 179, 0.7);
+}
+
+/* Forms */
+form {
+  padding: 20px 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin: 0 auto 30px;
+  text-align: left;
+  width: 100%;
+  max-width: 550px;  /* wider forms */
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  display: none; /* hidden by default */
+  transition: opacity 0.3s ease;
+}
+
+form.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Labels */
+form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+  color: #e0def4;
+}
+
+/* Inputs */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+  width: 100%;
+  padding: 10px 14px;
+  margin-top: 5px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.25);
+  color: #2c2c54;
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus {
+  border-color: #007bff;
+  outline: none;
+  background-color: #f0f8ff;
+  box-shadow: 0 0 5px rgba(0,123,255,0.3);
+  color: #2c2c54;
+}
+
+/* Submit buttons */
+form button.submit-btn {
+  margin-top: 20px;
+  padding: 12px;
+  width: 100%;
+  font-size: 1.1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.6);
+}
+
+form button.submit-btn:hover {
+  background-color: #0056b3;
+  box-shadow: 0 7px 20px rgba(0, 86, 179, 0.7);
+}
+
+/* Message box */
+.message {
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+
+.message.error {
+  color: #d93025;
+}
+
+.message.success {
+  color: #188038;
+}
+
+/* Responsive */
+@media (max-width: 650px) {
+  .exp3-container {
+    max-width: 90vw;
+    padding: 1.5rem 1.5rem;
+  }
+  
+  form {
+    max-width: 100%;
+  }
+
+  .toggle-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .toggle-buttons button {
+    width: 100%;
+  }
+}
