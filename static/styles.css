@@ -7,12 +7,12 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #00b894, #0984e3); /* changed gradient */
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
+  color: #ffffff;
 }
 
 .container {
@@ -20,7 +20,7 @@ body {
   backdrop-filter: blur(15px);
   border-radius: 16px;
   padding: 2.5rem 3rem;
-  width: 700px; /* widened */
+  width: 700px;
   max-width: 90vw;
   box-shadow: 0 8px 32px rgba(0,0,0,0.25);
   text-align: center;
@@ -37,7 +37,7 @@ header p {
   font-size: 1rem;
   margin-bottom: 0.25rem;
   letter-spacing: 0.04em;
-  color: #dcd6f7;
+  color: #b2f7ef; /* changed text color */
   text-shadow: 0 1px 3px rgba(0,0,0,0.25);
 }
 
@@ -51,7 +51,7 @@ form {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   background: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  color: #ffffff;
   width: 100%;
   max-width: 650px;
 }
@@ -65,7 +65,7 @@ label {
   font-weight: 600;
   margin-bottom: 8px;
   text-align: left;
-  color: #e0def4;
+  color: #f5f6fa; /* changed label color */
 }
 
 /* Inputs */
@@ -74,15 +74,14 @@ input[type="email"],
 input[type="password"],
 input[type="number"] {
   width: 100%;
-  /* max-width: 250px; */
   padding: 10px 14px;
   margin: 10px 0;
-  border: 2px solid #ccc;
+  border: 2px solid #a29bfe; /* changed border */
   border-radius: 8px;
   box-sizing: border-box;
   font-size: 1rem;
-  background: rgba(255,255,255,0.25);
-  color: #2c2c54;
+  background: rgba(255,255,255,0.2); /* slight change */
+  color: #2d3436; /* changed text color */
   transition: all 0.3s ease-in-out;
 }
 
@@ -90,10 +89,10 @@ input[type="number"]:focus,
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
-  border-color: #007bff;
+  border-color: #00cec9; /* changed focus border */
   outline: none;
-  background-color: #f0f8ff;
-  box-shadow: 0 0 5px rgba(0,123,255,0.3);
+  background-color: #dfe6e9; /* changed focus background */
+  box-shadow: 0 0 5px rgba(0, 206, 201, 0.3); /* changed focus shadow */
 }
 
 /* Buttons */
@@ -104,16 +103,16 @@ button {
   border-radius: 10px;
   font-weight: 700;
   font-size: 1.1rem;
-  background: #6c5ce7;
-  color: #fff;
+  background: #00cec9; /* changed button background */
+  color: #ffffff;
   cursor: pointer;
-  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.6);
+  box-shadow: 0 5px 15px rgba(0, 206, 201, 0.6); /* changed shadow */
   transition: background 0.3s ease;
   padding: 10px;
 }
 
 button:hover {
-  background: #4834d4;
+  background: #009688; /* changed hover background */
 }
 
 /* Inputs container */
@@ -130,7 +129,7 @@ button:hover {
   margin-top: 24px;
   font-size: 1.15rem;
   font-weight: 600;
-  color: #dfe6e9;
+  color: #ffeaa7; /* changed result color */
   word-wrap: break-word;
   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
   min-height: 40px;
@@ -166,7 +165,7 @@ button:hover {
 
 .tabs button {
   padding: 10px 16px;
-  background: #81ecec;
+  background: #fab1a0; /* changed tab color */
   border: none;
   border-radius: 10px;
   font-weight: 600;
@@ -176,8 +175,8 @@ button:hover {
 }
 
 .tabs button:hover {
-  background: #00cec9;
-  color: #fff;
+  background: #e17055; /* changed tab hover */
+  color: #ffffff;
 }
 
 /* Utility Classes */
@@ -185,13 +184,13 @@ button:hover {
   margin-top: 15px;
   font-weight: bold;
   text-align: center;
-  color: #fff;
+  color: #ffffff;
 }
 
 .message.error {
-  color: #d93025;
+  color: #ff7675; /* changed error color */
 }
 
 .message.success {
-  color: #188038;
+  color: #00b894; /* changed success color */
 }
